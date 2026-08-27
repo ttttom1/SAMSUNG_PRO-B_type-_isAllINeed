@@ -12,29 +12,44 @@ public class Main {
         matrix = new int[n][n];
         dp = new long[n][n];
 
+
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 matrix[i][j] = sc.nextInt();
             }
         }
         // Please write your code here.
-        
+        rotate();
         init();
 
-        for (int i = 1; i <= n - 1; i++) {
-            for (int j = n-2; j >= 0; j--) {
-                dp[i][j] = Math.min(dp[i-1][j] + matrix[i][j] , dp[i][j+1] + matrix[i][j]);
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j <n; j++) {
+                dp[i][j] = Math.min(dp[i-1][j] + matrix[i][j] , dp[i][j-1] + matrix[i][j]);
             }
         }
 
-        System.out.print(dp[n-1][0]);
+        System.out.print(dp[n-1][n-1]);
+
     }
 
     static void init() {
-        dp[0][n-1] = matrix[0][n-1];
+        dp[0][0] = matrix[0][0];
         for (int i = 1 ; i < n;i++) {
-            dp[0][n - 1 - i] = dp[0][n-i] + matrix[0][n-i-1];
-            dp[i][n-1] = dp[i-1][n-1] + matrix[i][n-1]; 
+            dp[i][0] = dp[i-1][0] + matrix[i][0];
+            dp[0][i] = dp[0][i-1] + matrix[0][i]; 
         }
+    }
+
+    static void rotate() {
+        
+        int[][] rotated = new int[n][n];
+
+        for(int i = 0 ; i < n;i++) {
+            for (int j = 0 ; j < n;j++) {
+                rotated[n-1-j][i] = matrix[i][j];
+            }
+        }
+        matrix = rotated;
     }
 }
